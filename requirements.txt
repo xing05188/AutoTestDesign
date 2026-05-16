@@ -8,3 +8,14 @@ pandas>=2.0.0
 pydantic>=2.0.0
 python-dotenv>=1.0.0
 requests>=2.31.0
+
+python-dotenv
+
+# 核心工具：Cover Agent
+# 来自 qodo-cover 项目，按 pip 方式安装：
+# pip install git+https://github.com/qodo-ai/qodo-cover.git
+git+https://github.com/qodo-ai/qodo-cover.git
+
+# 运行 cover-agent 时会用到的测试与覆盖率依赖
+pytest
+pytest-cov
