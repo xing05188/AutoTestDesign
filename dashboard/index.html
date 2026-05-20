@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoTestDesign Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="title-block">
+        <div class="eyebrow">AutoTestDesign</div>
+        <h1 class="title">Test Design Dashboard</h1>
+        <div class="subtitle">Static UI for reading outputs/ JSON</div>
+      </div>
+      <div class="status-block">
+        <div class="status-label">Data Source</div>
+        <div id="data-source" class="status-value">Idle</div>
+        <div class="status-meta" id="data-meta">No file loaded</div>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="panel panel-input">
+        <div class="panel-header">
+          <h2>Input</h2>
+          <div class="panel-actions">
+            <button id="load-latest" class="btn">Load Latest</button>
+            <label class="btn secondary">
+              Upload JSON
+              <input id="file-input" type="file" accept="application/json" />
+            </label>
+          </div>
+        </div>
+        <textarea id="input-text" placeholder="Paste requirement text here..." spellcheck="false"></textarea>
+        <div class="panel-footer">
+          <button id="run-mock" class="btn ghost" title="Static UI only">Run Workflow (Mock)</button>
+          <div class="hint">Serve from repo root: python -m http.server</div>
+        </div>
+      </section>
+
+      <section class="panel panel-summary">
+        <div class="panel-header">
+          <h2>Summary</h2>
+        </div>
+        <div class="summary-grid" id="summary-grid">
+          <div class="summary-card">
+            <div class="summary-label">Requirements</div>
+            <div class="summary-value" id="summary-reqs">-</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Risk Items</div>
+            <div class="summary-value" id="summary-risk">-</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Blackbox Tests</div>
+            <div class="summary-value" id="summary-bb">-</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Whitebox Tests</div>
+            <div class="summary-value" id="summary-wb">-</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Optimized Suite</div>
+            <div class="summary-value" id="summary-opt">-</div>
+          </div>
+        </div>
+        <div class="summary-meta" id="summary-meta">Waiting for data...</div>
+      </section>
+
+      <section class="panel panel-logs">
+        <div class="panel-header">
+          <h2>Progress</h2>
+        </div>
+        <div id="log-list" class="log-list">
+          <div class="log-item muted">No progress messages yet.</div>
+        </div>
+      </section>
+
+      <section class="panel panel-tests">
+        <div class="panel-header">
+          <h2>Test Cases</h2>
+          <div class="panel-actions">
+            <select id="filter-technique" class="select">
+              <option value="">Technique: All</option>
+            </select>
+            <select id="filter-priority" class="select">
+              <option value="">Priority: All</option>
+            </select>
+            <select id="filter-req" class="select">
+              <option value="">Req: All</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>TC ID</th>
+                <th>Req ID</th>
+                <th>Technique</th>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Positive</th>
+              </tr>
+            </thead>
+            <tbody id="test-table-body">
+              <tr>
+                <td colspan="6" class="muted">No tests loaded.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel panel-exports">
+        <div class="panel-header">
+          <h2>Exports</h2>
+        </div>
+        <div id="export-list" class="export-list">
+          <div class="export-item muted">No export artifacts.</div>
+        </div>
+      </section>
+
+      <section class="panel panel-diagram">
+        <div class="panel-header">
+          <h2>Workflow</h2>
+        </div>
+        <div class="diagram" id="workflow-diagram">
+          <pre class="mermaid" id="mermaid-diagram">
+flowchart TD
+  A[User Input] --> B[Input Parser]
+  B --> C{Parsed?}
+  C -->|Yes| D[Requirement Structurer]
+  C -->|No| Z[Stop]
+  D --> E{Structured?}
+  E -->|Yes| F[Risk Analyzer]
+  E -->|No| Z
+  F --> G[Blackbox Tests]
+  F --> H[Whitebox Tests]
+  G --> I[Merge]
+  H --> I
+  I --> J[Test Oracle]
+  J --> K[Optimizer]
+  K --> L[Exporter]
+          </pre>
+        </div>
+      </section>
+
+      <section class="panel panel-help">
+        <div class="panel-header">
+          <h2>How To View</h2>
+        </div>
+        <ol class="help-list">
+          <li>Open a terminal at repo root.</li>
+          <li>Run: python -m http.server</li>
+          <li>Visit: http://localhost:8000/dashboard/index.html</li>
+          <li>Click Load Latest to fetch outputs/.</li>
+        </ol>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
