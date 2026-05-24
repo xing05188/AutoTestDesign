@@ -30,6 +30,13 @@ def test_average_non_empty_list():
     assert average([1, 2, 3]) == 2.0
 
 
+def test_divide_method():
+    calc = Calculator()
+    result = calc.divide(15.0, 3.0)
+    assert result == 5.0
+    assert calc.get_last_result() == 5.0
+
+
 def test_average_empty_list():
     with pytest.raises(ValueError, match="List cannot be empty"):
         average([])
@@ -60,31 +67,20 @@ def test_divide_by_zero():
 
 def test_multiply_method():
     calc = Calculator()
-    result = calc.multiply(3.0, 4.0)
-    assert result == 12.0
-    assert calc.get_last_result() == 12.0
+    result = calc.multiply(6.0, 7.0)
+    assert result == 42.0
+    assert calc.get_last_result() == 42.0
 
 
 def test_subtract_method():
     calc = Calculator()
-    result = calc.subtract(10.0, 3.5)
-    assert result == 6.5
-    assert calc.get_last_result() == 6.5
+    result = calc.subtract(10.0, 4.0)
+    assert result == 6.0
+    assert calc.get_last_result() == 6.0
 
 
 def test_add_method():
     calc = Calculator()
-    result = calc.add(5.5, 4.5)
-    assert result == 10.0
-    assert calc.get_last_result() == 10.0
-
-
-# --------------------------------------------------------
-# Auto-generated - iteration 1 (CoverageImprovementPipeline)
-# --------------------------------------------------------
-
-def test_divide_non_zero():
-    calc = Calculator()
-    result = calc.divide(10.0, 2.0)
-    assert result == 5.0
-    assert calc.get_last_result() == 5.0
+    result = calc.add(5.0, 3.0)
+    assert result == 8.0
+    assert calc.get_last_result() == 8.0

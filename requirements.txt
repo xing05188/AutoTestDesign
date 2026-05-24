@@ -16,6 +16,17 @@ python-dotenv
 # pip install git+https://github.com/qodo-ai/qodo-cover.git
 git+https://github.com/qodo-ai/qodo-cover.git
 
-# 运行 cover-agent 时会用到的测试与覆盖率依赖
-pytest
-pytest-cov
+
+# Core coverage measurement
+coverage>=7.0          # branch coverage + programmatic API (_analyze)
+pytest>=7.0
+pytest-cov>=4.0        # pytest integration for coverage.py
+
+# LLM test generation
+# anthropic>=0.30.0      # Anthropic Python SDK
+
+# State transition diagram rendering (state_transition.py)
+graphviz>=0.20
+
+# Optional: symbolic execution for pure functions
+# crosshair-tool>=0.3  # pip install crosshair-tool

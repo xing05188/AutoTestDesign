@@ -82,419 +82,6 @@
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_find_max_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_max with a non-empty list."""</span>
-<span class="diff-unchanged">      assert find_max([1, 2, 3]) == 3</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_min_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_min with a non-empty list."""</span>
-<span class="diff-unchanged">      assert find_min([1, 2, 3]) == 1</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_average_non_empty_list():</span>
-<span class="diff-unchanged">      """Test average with a non-empty list."""</span>
-<span class="diff-unchanged">      assert average([1, 2, 3]) == 2.0</span>
-<span class="diff-added">+ </span>
-<span class="diff-added">+ </span>
-<span class="diff-added">+ def test_add_method():</span>
-<span class="diff-added">+     """Test add method with positive, negative, and zero values."""</span>
-<span class="diff-added">+     calc = Calculator()</span>
-<span class="diff-added">+     assert calc.add(2.5, 3.5) == 6.0</span>
-<span class="diff-added">+     assert calc.get_last_result() == 6.0</span>
-<span class="diff-added">+     assert calc.add(-1.0, 1.0) == 0.0</span>
-<span class="diff-added">+     assert calc.add(0.0, 5.0) == 5.0</span></code></pre>
-                    </details>
-                </td>
-                <td>
-                    <details>
-                        <summary>View More</summary>
-                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
-                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts =============================
-platform win32 -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0
-rootdir: D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1
-plugins: anyio-4.13.0, langsmith-0.8.5, cov-7.1.0
-collected 6 items
-
-test_calculater.py ......                                                [100%]
-
-=============================== tests coverage ================================
-______________ coverage: platform win32, python 3.11.15-final-0 _______________
-
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34     13    62%
-run.py                  24     24     0%
-test_calculater.py      20      0   100%
-----------------------------------------
-TOTAL                   78     37    53%
-Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================== 6 passed in 0.10s ==============================
-</code></pre></div>
-                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_add_method():
-    """Test add method with positive, negative, and zero values."""
-    calc = Calculator()
-    assert calc.add(2.5, 3.5) == 6.0
-    assert calc.get_last_result() == 6.0
-    assert calc.add(-1.0, 1.0) == 0.0
-    assert calc.add(0.0, 5.0) == 5.0
-</code></pre></div>
-                        <div><strong>Imports:</strong> <pre><code class="language-python">""
-</code></pre></div>
-                    </details>
-                </td>
-            </tr>
-            
-            <tr>
-                <td class="status-PASS">PASS</td>
-                <td></td>
-                <td>0</td>
-                <td>python</td>
-                <td>
-                    <details>
-                        <summary>View Full Code</summary>
-                        <pre><code><span class="diff-unchanged">  import pytest</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  from calculator import Calculator, find_max, find_min, average</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_smoke():</span>
-<span class="diff-unchanged">      """Smoke test to verify the test file is importable and runnable."""</span>
-<span class="diff-unchanged">      assert True</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_calculator_initialization():</span>
-<span class="diff-unchanged">      """Test that Calculator can be instantiated."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert isinstance(calc, Calculator)</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_max_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_max with a non-empty list."""</span>
-<span class="diff-unchanged">      assert find_max([1, 2, 3]) == 3</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_min_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_min with a non-empty list."""</span>
-<span class="diff-unchanged">      assert find_min([1, 2, 3]) == 1</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_average_non_empty_list():</span>
-<span class="diff-unchanged">      """Test average with a non-empty list."""</span>
-<span class="diff-unchanged">      assert average([1, 2, 3]) == 2.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-added">+ def test_subtract_method():</span>
-<span class="diff-added">+     """Test subtract method with positive, negative, and zero values."""</span>
-<span class="diff-added">+     calc = Calculator()</span>
-<span class="diff-added">+     assert calc.subtract(10.0, 4.0) == 6.0</span>
-<span class="diff-added">+     assert calc.get_last_result() == 6.0</span>
-<span class="diff-added">+     assert calc.subtract(0.0, 5.0) == -5.0</span>
-<span class="diff-added">+     assert calc.subtract(-2.0, -3.0) == 1.0</span>
-<span class="diff-added">+ </span>
-<span class="diff-added">+ </span>
-<span class="diff-unchanged">  def test_add_method():</span>
-<span class="diff-unchanged">      """Test add method with positive, negative, and zero values."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert calc.add(2.5, 3.5) == 6.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 6.0</span>
-<span class="diff-unchanged">      assert calc.add(-1.0, 1.0) == 0.0</span>
-<span class="diff-unchanged">      assert calc.add(0.0, 5.0) == 5.0</span></code></pre>
-                    </details>
-                </td>
-                <td>
-                    <details>
-                        <summary>View More</summary>
-                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
-                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts =============================
-platform win32 -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0
-rootdir: D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1
-plugins: anyio-4.13.0, langsmith-0.8.5, cov-7.1.0
-collected 7 items
-
-test_calculater.py .......                                               [100%]
-
-=============================== tests coverage ================================
-______________ coverage: platform win32, python 3.11.15-final-0 _______________
-
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34     11    68%
-run.py                  24     24     0%
-test_calculater.py      26      0   100%
-----------------------------------------
-TOTAL                   84     35    58%
-Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================== 7 passed in 0.11s ==============================
-</code></pre></div>
-                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_subtract_method():
-    """Test subtract method with positive, negative, and zero values."""
-    calc = Calculator()
-    assert calc.subtract(10.0, 4.0) == 6.0
-    assert calc.get_last_result() == 6.0
-    assert calc.subtract(0.0, 5.0) == -5.0
-    assert calc.subtract(-2.0, -3.0) == 1.0
-</code></pre></div>
-                        <div><strong>Imports:</strong> <pre><code class="language-python">""
-</code></pre></div>
-                    </details>
-                </td>
-            </tr>
-            
-            <tr>
-                <td class="status-PASS">PASS</td>
-                <td></td>
-                <td>0</td>
-                <td>python</td>
-                <td>
-                    <details>
-                        <summary>View Full Code</summary>
-                        <pre><code><span class="diff-unchanged">  import pytest</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  from calculator import Calculator, find_max, find_min, average</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_smoke():</span>
-<span class="diff-unchanged">      """Smoke test to verify the test file is importable and runnable."""</span>
-<span class="diff-unchanged">      assert True</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_calculator_initialization():</span>
-<span class="diff-unchanged">      """Test that Calculator can be instantiated."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert isinstance(calc, Calculator)</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_max_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_max with a non-empty list."""</span>
-<span class="diff-unchanged">      assert find_max([1, 2, 3]) == 3</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_min_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_min with a non-empty list."""</span>
-<span class="diff-unchanged">      assert find_min([1, 2, 3]) == 1</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_average_non_empty_list():</span>
-<span class="diff-unchanged">      """Test average with a non-empty list."""</span>
-<span class="diff-unchanged">      assert average([1, 2, 3]) == 2.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-added">+ def test_multiply_method():</span>
-<span class="diff-added">+     """Test multiply method with positive, negative, zero, and fractional values."""</span>
-<span class="diff-added">+     calc = Calculator()</span>
-<span class="diff-added">+     assert calc.multiply(3.0, 4.0) == 12.0</span>
-<span class="diff-added">+     assert calc.get_last_result() == 12.0</span>
-<span class="diff-added">+     assert calc.multiply(-2.0, 3.0) == -6.0</span>
-<span class="diff-added">+     assert calc.multiply(0.0, 100.0) == 0.0</span>
-<span class="diff-added">+     assert calc.multiply(0.5, 4.0) == 2.0</span>
-<span class="diff-added">+ </span>
-<span class="diff-added">+ </span>
-<span class="diff-unchanged">  def test_subtract_method():</span>
-<span class="diff-unchanged">      """Test subtract method with positive, negative, and zero values."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert calc.subtract(10.0, 4.0) == 6.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 6.0</span>
-<span class="diff-unchanged">      assert calc.subtract(0.0, 5.0) == -5.0</span>
-<span class="diff-unchanged">      assert calc.subtract(-2.0, -3.0) == 1.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_add_method():</span>
-<span class="diff-unchanged">      """Test add method with positive, negative, and zero values."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert calc.add(2.5, 3.5) == 6.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 6.0</span>
-<span class="diff-unchanged">      assert calc.add(-1.0, 1.0) == 0.0</span>
-<span class="diff-unchanged">      assert calc.add(0.0, 5.0) == 5.0</span></code></pre>
-                    </details>
-                </td>
-                <td>
-                    <details>
-                        <summary>View More</summary>
-                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
-                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts =============================
-platform win32 -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0
-rootdir: D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1
-plugins: anyio-4.13.0, langsmith-0.8.5, cov-7.1.0
-collected 8 items
-
-test_calculater.py ........                                              [100%]
-
-=============================== tests coverage ================================
-______________ coverage: platform win32, python 3.11.15-final-0 _______________
-
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      9    74%
-run.py                  24     24     0%
-test_calculater.py      33      0   100%
-----------------------------------------
-TOTAL                   91     33    64%
-Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================== 8 passed in 0.12s ==============================
-</code></pre></div>
-                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_multiply_method():
-    """Test multiply method with positive, negative, zero, and fractional values."""
-    calc = Calculator()
-    assert calc.multiply(3.0, 4.0) == 12.0
-    assert calc.get_last_result() == 12.0
-    assert calc.multiply(-2.0, 3.0) == -6.0
-    assert calc.multiply(0.0, 100.0) == 0.0
-    assert calc.multiply(0.5, 4.0) == 2.0
-</code></pre></div>
-                        <div><strong>Imports:</strong> <pre><code class="language-python">""
-</code></pre></div>
-                    </details>
-                </td>
-            </tr>
-            
-            <tr>
-                <td class="status-PASS">PASS</td>
-                <td></td>
-                <td>0</td>
-                <td>python</td>
-                <td>
-                    <details>
-                        <summary>View Full Code</summary>
-                        <pre><code><span class="diff-unchanged">  import pytest</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  from calculator import Calculator, find_max, find_min, average</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_smoke():</span>
-<span class="diff-unchanged">      """Smoke test to verify the test file is importable and runnable."""</span>
-<span class="diff-unchanged">      assert True</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_calculator_initialization():</span>
-<span class="diff-unchanged">      """Test that Calculator can be instantiated."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert isinstance(calc, Calculator)</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_max_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_max with a non-empty list."""</span>
-<span class="diff-unchanged">      assert find_max([1, 2, 3]) == 3</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_min_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_min with a non-empty list."""</span>
-<span class="diff-unchanged">      assert find_min([1, 2, 3]) == 1</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_average_non_empty_list():</span>
-<span class="diff-unchanged">      """Test average with a non-empty list."""</span>
-<span class="diff-unchanged">      assert average([1, 2, 3]) == 2.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-added">+ def test_divide_method():</span>
-<span class="diff-added">+     """Test divide method with valid inputs and zero division error."""</span>
-<span class="diff-added">+     calc = Calculator()</span>
-<span class="diff-added">+     assert calc.divide(10.0, 2.0) == 5.0</span>
-<span class="diff-added">+     assert calc.get_last_result() == 5.0</span>
-<span class="diff-added">+     assert calc.divide(-6.0, 3.0) == -2.0</span>
-<span class="diff-added">+     assert calc.divide(7.5, 2.5) == 3.0</span>
-<span class="diff-added">+     with pytest.raises(ValueError, match="Cannot divide by zero"):</span>
-<span class="diff-added">+         calc.divide(5.0, 0.0)</span>
-<span class="diff-added">+ </span>
-<span class="diff-added">+ </span>
-<span class="diff-unchanged">  def test_multiply_method():</span>
-<span class="diff-unchanged">      """Test multiply method with positive, negative, zero, and fractional values."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert calc.multiply(3.0, 4.0) == 12.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 12.0</span>
-<span class="diff-unchanged">      assert calc.multiply(-2.0, 3.0) == -6.0</span>
-<span class="diff-unchanged">      assert calc.multiply(0.0, 100.0) == 0.0</span>
-<span class="diff-unchanged">      assert calc.multiply(0.5, 4.0) == 2.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_subtract_method():</span>
-<span class="diff-unchanged">      """Test subtract method with positive, negative, and zero values."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert calc.subtract(10.0, 4.0) == 6.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 6.0</span>
-<span class="diff-unchanged">      assert calc.subtract(0.0, 5.0) == -5.0</span>
-<span class="diff-unchanged">      assert calc.subtract(-2.0, -3.0) == 1.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_add_method():</span>
-<span class="diff-unchanged">      """Test add method with positive, negative, and zero values."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert calc.add(2.5, 3.5) == 6.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 6.0</span>
-<span class="diff-unchanged">      assert calc.add(-1.0, 1.0) == 0.0</span>
-<span class="diff-unchanged">      assert calc.add(0.0, 5.0) == 5.0</span></code></pre>
-                    </details>
-                </td>
-                <td>
-                    <details>
-                        <summary>View More</summary>
-                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
-                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts =============================
-platform win32 -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0
-rootdir: D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1
-plugins: anyio-4.13.0, langsmith-0.8.5, cov-7.1.0
-collected 9 items
-
-test_calculater.py .........                                             [100%]
-
-=============================== tests coverage ================================
-______________ coverage: platform win32, python 3.11.15-final-0 _______________
-
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      5    85%
-run.py                  24     24     0%
-test_calculater.py      41      0   100%
-----------------------------------------
-TOTAL                   99     29    71%
-Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================== 9 passed in 0.13s ==============================
-</code></pre></div>
-                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_divide_method():
-    """Test divide method with valid inputs and zero division error."""
-    calc = Calculator()
-    assert calc.divide(10.0, 2.0) == 5.0
-    assert calc.get_last_result() == 5.0
-    assert calc.divide(-6.0, 3.0) == -2.0
-    assert calc.divide(7.5, 2.5) == 3.0
-    with pytest.raises(ValueError, match="Cannot divide by zero"):
-        calc.divide(5.0, 0.0)
-</code></pre></div>
-                        <div><strong>Imports:</strong> <pre><code class="language-python">import pytest
-</code></pre></div>
-                    </details>
-                </td>
-            </tr>
-            
-            <tr>
-                <td class="status-PASS">PASS</td>
-                <td></td>
-                <td>0</td>
-                <td>python</td>
-                <td>
-                    <details>
-                        <summary>View Full Code</summary>
-                        <pre><code><span class="diff-unchanged">  import pytest</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  from calculator import Calculator, find_max, find_min, average</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_smoke():</span>
-<span class="diff-unchanged">      """Smoke test to verify the test file is importable and runnable."""</span>
-<span class="diff-unchanged">      assert True</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_calculator_initialization():</span>
-<span class="diff-unchanged">      """Test that Calculator can be instantiated."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert isinstance(calc, Calculator)</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_max_non_empty_list():</span>
 <span class="diff-unchanged">      """Test find_max with a simple non-empty list."""</span>
 <span class="diff-unchanged">      assert find_max([1, 2, 3]) == 3</span>
 <span class="diff-unchanged">  </span>
@@ -531,15 +118,15 @@ test_calculater.py ......                                                [100%]
 =============================== tests coverage ================================
 ______________ coverage: platform win32, python 3.11.15-final-0 _______________
 
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34     13    62%
-run.py                  24     24     0%
-test_calculater.py      19      0   100%
-----------------------------------------
-TOTAL                   77     37    52%
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34     13      8      3    57%
+run.py                  29     29      8      0     0%
+test_calculater.py      19      0      0      0   100%
+------------------------------------------------------
+TOTAL                   82     42     16      3    44%
 Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================== 6 passed in 0.11s ==============================
+============================== 6 passed in 0.10s ==============================
 </code></pre></div>
                         <div><strong>Test Code:</strong> <pre><code class="language-python">def test_add_method():
     calc = Calculator()
@@ -595,9 +182,9 @@ Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all
 <span class="diff-unchanged">  </span>
 <span class="diff-added">+ def test_subtract_method():</span>
 <span class="diff-added">+     calc = Calculator()</span>
-<span class="diff-added">+     result = calc.subtract(10.0, 3.0)</span>
-<span class="diff-added">+     assert result == 7.0</span>
-<span class="diff-added">+     assert calc.get_last_result() == 7.0</span>
+<span class="diff-added">+     result = calc.subtract(10.0, 3.5)</span>
+<span class="diff-added">+     assert result == 6.5</span>
+<span class="diff-added">+     assert calc.get_last_result() == 6.5</span>
 <span class="diff-added">+ </span>
 <span class="diff-added">+ </span>
 <span class="diff-unchanged">  def test_add_method():</span>
@@ -622,21 +209,21 @@ test_calculater.py .......                                               [100%]
 =============================== tests coverage ================================
 ______________ coverage: platform win32, python 3.11.15-final-0 _______________
 
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34     11    68%
-run.py                  24     24     0%
-test_calculater.py      24      0   100%
-----------------------------------------
-TOTAL                   82     35    57%
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34     11      8      3    62%
+run.py                  29     29      8      0     0%
+test_calculater.py      24      0      0      0   100%
+------------------------------------------------------
+TOTAL                   87     40     16      3    49%
 Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================== 7 passed in 0.11s ==============================
+============================== 7 passed in 0.10s ==============================
 </code></pre></div>
                         <div><strong>Test Code:</strong> <pre><code class="language-python">def test_subtract_method():
     calc = Calculator()
-    result = calc.subtract(10.0, 3.0)
-    assert result == 7.0
-    assert calc.get_last_result() == 7.0
+    result = calc.subtract(10.0, 3.5)
+    assert result == 6.5
+    assert calc.get_last_result() == 6.5
 </code></pre></div>
                         <div><strong>Imports:</strong> <pre><code class="language-python">""
 </code></pre></div>
@@ -686,16 +273,16 @@ Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all
 <span class="diff-unchanged">  </span>
 <span class="diff-added">+ def test_multiply_method():</span>
 <span class="diff-added">+     calc = Calculator()</span>
-<span class="diff-added">+     result = calc.multiply(6.0, 7.0)</span>
-<span class="diff-added">+     assert result == 42.0</span>
-<span class="diff-added">+     assert calc.get_last_result() == 42.0</span>
+<span class="diff-added">+     result = calc.multiply(3.0, 4.0)</span>
+<span class="diff-added">+     assert result == 12.0</span>
+<span class="diff-added">+     assert calc.get_last_result() == 12.0</span>
 <span class="diff-added">+ </span>
 <span class="diff-added">+ </span>
 <span class="diff-unchanged">  def test_subtract_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.subtract(10.0, 3.0)</span>
-<span class="diff-unchanged">      assert result == 7.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 7.0</span>
+<span class="diff-unchanged">      result = calc.subtract(10.0, 3.5)</span>
+<span class="diff-unchanged">      assert result == 6.5</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 6.5</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_add_method():</span>
@@ -720,21 +307,21 @@ test_calculater.py ........                                              [100%]
 =============================== tests coverage ================================
 ______________ coverage: platform win32, python 3.11.15-final-0 _______________
 
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      9    74%
-run.py                  24     24     0%
-test_calculater.py      29      0   100%
-----------------------------------------
-TOTAL                   87     33    62%
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34      9      8      3    67%
+run.py                  29     29      8      0     0%
+test_calculater.py      29      0      0      0   100%
+------------------------------------------------------
+TOTAL                   92     38     16      3    53%
 Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
 ============================== 8 passed in 0.11s ==============================
 </code></pre></div>
                         <div><strong>Test Code:</strong> <pre><code class="language-python">def test_multiply_method():
     calc = Calculator()
-    result = calc.multiply(6.0, 7.0)
-    assert result == 42.0
-    assert calc.get_last_result() == 42.0
+    result = calc.multiply(3.0, 4.0)
+    assert result == 12.0
+    assert calc.get_last_result() == 12.0
 </code></pre></div>
                         <div><strong>Imports:</strong> <pre><code class="language-python">""
 </code></pre></div>
@@ -790,16 +377,16 @@ Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all
 <span class="diff-added">+ </span>
 <span class="diff-unchanged">  def test_multiply_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.multiply(6.0, 7.0)</span>
-<span class="diff-unchanged">      assert result == 42.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 42.0</span>
+<span class="diff-unchanged">      result = calc.multiply(3.0, 4.0)</span>
+<span class="diff-unchanged">      assert result == 12.0</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 12.0</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_subtract_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.subtract(10.0, 3.0)</span>
-<span class="diff-unchanged">      assert result == 7.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 7.0</span>
+<span class="diff-unchanged">      result = calc.subtract(10.0, 3.5)</span>
+<span class="diff-unchanged">      assert result == 6.5</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 6.5</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_add_method():</span>
@@ -824,13 +411,13 @@ test_calculater.py .........                                             [100%]
 =============================== tests coverage ================================
 ______________ coverage: platform win32, python 3.11.15-final-0 _______________
 
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      7    79%
-run.py                  24     24     0%
-test_calculater.py      33      0   100%
-----------------------------------------
-TOTAL                   91     31    66%
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34      7      8      4    74%
+run.py                  29     29      8      0     0%
+test_calculater.py      33      0      0      0   100%
+------------------------------------------------------
+TOTAL                   96     36     16      4    57%
 Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
 ============================== 9 passed in 0.11s ==============================
 </code></pre></div>
@@ -900,16 +487,16 @@ Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_multiply_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.multiply(6.0, 7.0)</span>
-<span class="diff-unchanged">      assert result == 42.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 42.0</span>
+<span class="diff-unchanged">      result = calc.multiply(3.0, 4.0)</span>
+<span class="diff-unchanged">      assert result == 12.0</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 12.0</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_subtract_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.subtract(10.0, 3.0)</span>
-<span class="diff-unchanged">      assert result == 7.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 7.0</span>
+<span class="diff-unchanged">      result = calc.subtract(10.0, 3.5)</span>
+<span class="diff-unchanged">      assert result == 6.5</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 6.5</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_add_method():</span>
@@ -934,21 +521,141 @@ test_calculater.py ..........                                            [100%]
 =============================== tests coverage ================================
 ______________ coverage: platform win32, python 3.11.15-final-0 _______________
 
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      5    85%
-run.py                  24     24     0%
-test_calculater.py      38      0   100%
-----------------------------------------
-TOTAL                   96     29    70%
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34      5      8      4    79%
+run.py                  29     29      8      0     0%
+test_calculater.py      38      0      0      0   100%
+------------------------------------------------------
+TOTAL                  101     34     16      4    61%
 Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================= 10 passed in 0.12s ==============================
+============================= 10 passed in 0.11s ==============================
 </code></pre></div>
                         <div><strong>Test Code:</strong> <pre><code class="language-python">def test_power_method():
     calc = Calculator()
     result = calc.power(2.0, 3.0)
     assert result == 8.0
     assert calc.get_last_result() == 8.0
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Coverage did not increase. Maybe the test did run but did not increase coverage, or maybe the test execution was skipped due to some problem</td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from calculator import Calculator, find_max, find_min, average</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_smoke():</span>
+<span class="diff-unchanged">      """Smoke test to verify the test file is importable and runnable."""</span>
+<span class="diff-unchanged">      assert True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_calculator_initialization():</span>
+<span class="diff-unchanged">      """Test that Calculator can be instantiated."""</span>
+<span class="diff-unchanged">      calc = Calculator()</span>
+<span class="diff-unchanged">      assert isinstance(calc, Calculator)</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 0</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_find_max_non_empty_list():</span>
+<span class="diff-unchanged">      """Test find_max with a simple non-empty list."""</span>
+<span class="diff-unchanged">      assert find_max([1, 2, 3]) == 3</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_find_min_non_empty_list():</span>
+<span class="diff-unchanged">      """Test find_min with a simple non-empty list."""</span>
+<span class="diff-unchanged">      assert find_min([1, 2, 3]) == 1</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_average_non_empty_list():</span>
+<span class="diff-unchanged">      """Test average with a simple non-empty list."""</span>
+<span class="diff-unchanged">      assert average([1, 2, 3]) == 2.0</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_last_result_persistence():</span>
+<span class="diff-added">+     calc = Calculator()</span>
+<span class="diff-added">+     calc.add(1, 1)      # last_result = 2</span>
+<span class="diff-added">+     calc.multiply(2, 3)  # last_result = 6</span>
+<span class="diff-added">+     calc.subtract(10, 1) # last_result = 9</span>
+<span class="diff-added">+     assert calc.get_last_result() == 9</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_power_method():</span>
+<span class="diff-unchanged">      calc = Calculator()</span>
+<span class="diff-unchanged">      result = calc.power(2.0, 3.0)</span>
+<span class="diff-unchanged">      assert result == 8.0</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 8.0</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_divide_by_zero():</span>
+<span class="diff-unchanged">      calc = Calculator()</span>
+<span class="diff-unchanged">      with pytest.raises(ValueError, match="Cannot divide by zero"):</span>
+<span class="diff-unchanged">          calc.divide(5.0, 0.0)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_multiply_method():</span>
+<span class="diff-unchanged">      calc = Calculator()</span>
+<span class="diff-unchanged">      result = calc.multiply(3.0, 4.0)</span>
+<span class="diff-unchanged">      assert result == 12.0</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 12.0</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_subtract_method():</span>
+<span class="diff-unchanged">      calc = Calculator()</span>
+<span class="diff-unchanged">      result = calc.subtract(10.0, 3.5)</span>
+<span class="diff-unchanged">      assert result == 6.5</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 6.5</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_method():</span>
+<span class="diff-unchanged">      calc = Calculator()</span>
+<span class="diff-unchanged">      result = calc.add(5.5, 4.5)</span>
+<span class="diff-unchanged">      assert result == 10.0</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 10.0</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts =============================
+platform win32 -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0
+rootdir: D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1
+plugins: anyio-4.13.0, langsmith-0.8.5, cov-7.1.0
+collected 11 items
+
+test_calculater.py ...........                                           [100%]
+
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.11.15-final-0 _______________
+
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34      5      8      4    79%
+run.py                  29     29      8      0     0%
+test_calculater.py      44      0      0      0   100%
+------------------------------------------------------
+TOTAL                  107     34     16      4    63%
+Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
+============================= 11 passed in 0.11s ==============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_last_result_persistence():
+    calc = Calculator()
+    calc.add(1, 1)      # last_result = 2
+    calc.multiply(2, 3)  # last_result = 6
+    calc.subtract(10, 1) # last_result = 9
+    assert calc.get_last_result() == 9
 </code></pre></div>
                         <div><strong>Imports:</strong> <pre><code class="language-python">""
 </code></pre></div>
@@ -1016,16 +723,16 @@ Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_multiply_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.multiply(6.0, 7.0)</span>
-<span class="diff-unchanged">      assert result == 42.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 42.0</span>
+<span class="diff-unchanged">      result = calc.multiply(3.0, 4.0)</span>
+<span class="diff-unchanged">      assert result == 12.0</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 12.0</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_subtract_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.subtract(10.0, 3.0)</span>
-<span class="diff-unchanged">      assert result == 7.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 7.0</span>
+<span class="diff-unchanged">      result = calc.subtract(10.0, 3.5)</span>
+<span class="diff-unchanged">      assert result == 6.5</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 6.5</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_add_method():</span>
@@ -1050,15 +757,15 @@ test_calculater.py ...........                                           [100%]
 =============================== tests coverage ================================
 ______________ coverage: platform win32, python 3.11.15-final-0 _______________
 
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      4    88%
-run.py                  24     24     0%
-test_calculater.py      41      0   100%
-----------------------------------------
-TOTAL                   99     28    72%
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34      4      8      3    83%
+run.py                  29     29      8      0     0%
+test_calculater.py      41      0      0      0   100%
+------------------------------------------------------
+TOTAL                  104     33     16      3    63%
 Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================= 11 passed in 0.11s ==============================
+============================= 11 passed in 0.13s ==============================
 </code></pre></div>
                         <div><strong>Test Code:</strong> <pre><code class="language-python">def test_find_max_empty_list():
     with pytest.raises(ValueError, match="List cannot be empty"):
@@ -1135,16 +842,16 @@ Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_multiply_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.multiply(6.0, 7.0)</span>
-<span class="diff-unchanged">      assert result == 42.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 42.0</span>
+<span class="diff-unchanged">      result = calc.multiply(3.0, 4.0)</span>
+<span class="diff-unchanged">      assert result == 12.0</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 12.0</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_subtract_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.subtract(10.0, 3.0)</span>
-<span class="diff-unchanged">      assert result == 7.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 7.0</span>
+<span class="diff-unchanged">      result = calc.subtract(10.0, 3.5)</span>
+<span class="diff-unchanged">      assert result == 6.5</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 6.5</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_add_method():</span>
@@ -1169,15 +876,15 @@ test_calculater.py ............                                          [100%]
 =============================== tests coverage ================================
 ______________ coverage: platform win32, python 3.11.15-final-0 _______________
 
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      3    91%
-run.py                  24     24     0%
-test_calculater.py      44      0   100%
-----------------------------------------
-TOTAL                  102     27    74%
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34      3      8      2    88%
+run.py                  29     29      8      0     0%
+test_calculater.py      44      0      0      0   100%
+------------------------------------------------------
+TOTAL                  107     32     16      2    66%
 Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================= 12 passed in 0.13s ==============================
+============================= 12 passed in 0.11s ==============================
 </code></pre></div>
                         <div><strong>Test Code:</strong> <pre><code class="language-python">def test_find_min_empty_list():
     with pytest.raises(ValueError, match="List cannot be empty"):
@@ -1259,16 +966,16 @@ Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_multiply_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.multiply(6.0, 7.0)</span>
-<span class="diff-unchanged">      assert result == 42.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 42.0</span>
+<span class="diff-unchanged">      result = calc.multiply(3.0, 4.0)</span>
+<span class="diff-unchanged">      assert result == 12.0</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 12.0</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_subtract_method():</span>
 <span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.subtract(10.0, 3.0)</span>
-<span class="diff-unchanged">      assert result == 7.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 7.0</span>
+<span class="diff-unchanged">      result = calc.subtract(10.0, 3.5)</span>
+<span class="diff-unchanged">      assert result == 6.5</span>
+<span class="diff-unchanged">      assert calc.get_last_result() == 6.5</span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  </span>
 <span class="diff-unchanged">  def test_add_method():</span>
@@ -1293,152 +1000,19 @@ test_calculater.py .............                                         [100%]
 =============================== tests coverage ================================
 ______________ coverage: platform win32, python 3.11.15-final-0 _______________
 
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      2    94%
-run.py                  24     24     0%
-test_calculater.py      47      0   100%
-----------------------------------------
-TOTAL                  105     26    75%
+Name                 Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------
+calculator.py           34      2      8      1    93%
+run.py                  29     29      8      0     0%
+test_calculater.py      47      0      0      0   100%
+------------------------------------------------------
+TOTAL                  110     31     16      1    68%
 Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================= 13 passed in 0.14s ==============================
+============================= 13 passed in 0.12s ==============================
 </code></pre></div>
                         <div><strong>Test Code:</strong> <pre><code class="language-python">def test_average_empty_list():
     with pytest.raises(ValueError, match="List cannot be empty"):
         average([])
-</code></pre></div>
-                        <div><strong>Imports:</strong> <pre><code class="language-python">""
-</code></pre></div>
-                    </details>
-                </td>
-            </tr>
-            
-            <tr>
-                <td class="status-PASS">PASS</td>
-                <td></td>
-                <td>0</td>
-                <td>python</td>
-                <td>
-                    <details>
-                        <summary>View Full Code</summary>
-                        <pre><code><span class="diff-unchanged">  import pytest</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  from calculator import Calculator, find_max, find_min, average</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_smoke():</span>
-<span class="diff-unchanged">      """Smoke test to verify the test file is importable and runnable."""</span>
-<span class="diff-unchanged">      assert True</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_calculator_initialization():</span>
-<span class="diff-unchanged">      """Test that Calculator can be instantiated."""</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      assert isinstance(calc, Calculator)</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_max_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_max with a simple non-empty list."""</span>
-<span class="diff-unchanged">      assert find_max([1, 2, 3]) == 3</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_min_non_empty_list():</span>
-<span class="diff-unchanged">      """Test find_min with a simple non-empty list."""</span>
-<span class="diff-unchanged">      assert find_min([1, 2, 3]) == 1</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_average_non_empty_list():</span>
-<span class="diff-unchanged">      """Test average with a simple non-empty list."""</span>
-<span class="diff-unchanged">      assert average([1, 2, 3]) == 2.0</span>
-<span class="diff-added">+ </span>
-<span class="diff-added">+ </span>
-<span class="diff-added">+ def test_divide_method():</span>
-<span class="diff-added">+     calc = Calculator()</span>
-<span class="diff-added">+     result = calc.divide(15.0, 3.0)</span>
-<span class="diff-added">+     assert result == 5.0</span>
-<span class="diff-added">+     assert calc.get_last_result() == 5.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_average_empty_list():</span>
-<span class="diff-unchanged">      with pytest.raises(ValueError, match="List cannot be empty"):</span>
-<span class="diff-unchanged">          average([])</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_min_empty_list():</span>
-<span class="diff-unchanged">      with pytest.raises(ValueError, match="List cannot be empty"):</span>
-<span class="diff-unchanged">          find_min([])</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_find_max_empty_list():</span>
-<span class="diff-unchanged">      with pytest.raises(ValueError, match="List cannot be empty"):</span>
-<span class="diff-unchanged">          find_max([])</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_power_method():</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.power(2.0, 3.0)</span>
-<span class="diff-unchanged">      assert result == 8.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 8.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_divide_by_zero():</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      with pytest.raises(ValueError, match="Cannot divide by zero"):</span>
-<span class="diff-unchanged">          calc.divide(5.0, 0.0)</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_multiply_method():</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.multiply(6.0, 7.0)</span>
-<span class="diff-unchanged">      assert result == 42.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 42.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_subtract_method():</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.subtract(10.0, 3.0)</span>
-<span class="diff-unchanged">      assert result == 7.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 7.0</span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  </span>
-<span class="diff-unchanged">  def test_add_method():</span>
-<span class="diff-unchanged">      calc = Calculator()</span>
-<span class="diff-unchanged">      result = calc.add(5.5, 4.5)</span>
-<span class="diff-unchanged">      assert result == 10.0</span>
-<span class="diff-unchanged">      assert calc.get_last_result() == 10.0</span></code></pre>
-                    </details>
-                </td>
-                <td>
-                    <details>
-                        <summary>View More</summary>
-                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
-                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts =============================
-platform win32 -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0
-rootdir: D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1
-plugins: anyio-4.13.0, langsmith-0.8.5, cov-7.1.0
-collected 14 items
-
-test_calculater.py ..............                                        [100%]
-
-=============================== tests coverage ================================
-______________ coverage: platform win32, python 3.11.15-final-0 _______________
-
-Name                 Stmts   Miss  Cover
-----------------------------------------
-calculator.py           34      0   100%
-run.py                  24     24     0%
-test_calculater.py      52      0   100%
-----------------------------------------
-TOTAL                  110     24    78%
-Coverage XML written to file D:\TongJi\大三下\软件测试\作业\作业2\all\tests\test_white_box\ex1\calculator_whitebox_result\coverage.xml
-============================= 14 passed in 0.12s ==============================
-</code></pre></div>
-                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_divide_method():
-    calc = Calculator()
-    result = calc.divide(15.0, 3.0)
-    assert result == 5.0
-    assert calc.get_last_result() == 5.0
 </code></pre></div>
                         <div><strong>Imports:</strong> <pre><code class="language-python">""
 </code></pre></div>

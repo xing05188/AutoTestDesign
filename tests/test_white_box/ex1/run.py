@@ -8,7 +8,12 @@ from dotenv import load_dotenv
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from agents.whitebox.whitebox_qodocover import CoverAgentWorkflowConfig, run_cover_agent_workflow
+# `agents/whitebox` contains modules that currently use direct sibling imports.
+WHITEBOX_ROOT = PROJECT_ROOT / "agents" / "whitebox"
+sys.path.insert(0, str(WHITEBOX_ROOT))
+
+from agents.whitebox.statement_qodocover import CoverAgentWorkflowConfig, run_cover_agent_workflow
+from agents.whitebox.pipeline import CoverageImprovementPipeline
 
 
 def main() -> None:
@@ -60,6 +65,20 @@ def main() -> None:
     )
 
     run_cover_agent_workflow(config)
+
+    pipeline = CoverageImprovementPipeline(
+        source_file=str(here / "calculator.py"),
+        test_file=str(here / "test_calculater.py"),
+        api_key=openai_api_key,
+        api_base=api_base,
+        model=model,
+        include_conditions=True,
+    )
+    result = pipeline.run(
+        target_branch_coverage=90.0,
+        max_iterations=3,
+        test_paths=[str(here / "test_calculater.py")],
+    )
 
 
 if __name__ == "__main__":
