@@ -323,7 +323,7 @@ def exporter_node(state: AutoTestState) -> Dict[str, Any]:
     LangGraph 节点函数
     全部测试产物 → 导出文件
     """
-    output_dir = get_output_dir()
+    output_dir = state.get("session_dir") or get_output_dir()
     progress = ["[Exporter] 开始导出测试产物..."]
     errors = []
     paths = {}
