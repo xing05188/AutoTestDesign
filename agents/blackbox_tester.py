@@ -24,15 +24,37 @@ def get_risk_priority(req_id: str, risk_analysis: List[Dict]) -> str:
     return "Medium"
 
 
-def generate_blackbox_tests(llm, structured: List[Dict], risk_analysis: List[Dict]) -> List[Dict]:
-    """一次性生成全部黑盒测试用例"""
+def generate_blackbox_tests(
+    llm,
+    structured: List[Dict],
+    risk_analysis: List[Dict],
+    enabled_techniques: List[str] = None,
+) -> List[Dict]:
+    """根据启用的黑盒技术生成测试用例"""
+    if enabled_techniques is None:
+        enabled_techniques = ["Equivalence_Partitioning", "Boundary_Value_Analysis", "Decision_Table"]
+
+    tech_names = {
+        "Equivalence_Partitioning": "等价类划分 (EP)",
+        "Boundary_Value_Analysis": "边界值分析 (BVA)",
+        "Decision_Table": "决策表 (Decision Table)",
+    }
+    enabled_names = [tech_names[t] for t in enabled_techniques if t in tech_names]
+
+    technique_instruction = "本次需要使用的黑盒测试技术：\n"
+    for name in enabled_names:
+        technique_instruction += f"- {name}\n"
+    technique_instruction += "\n请只使用上述指定的技术生成测试用例，不要生成其他技术的用例。"
+
+    user_prompt = BLACKBOX_USER.format(
+        structured_requirements_json=json.dumps(structured, ensure_ascii=False, indent=2),
+        risk_analysis_json=json.dumps(risk_analysis, ensure_ascii=False, indent=2),
+    ) + "\n\n" + technique_instruction
+
     result = call_llm_json(
         llm,
         BLACKBOX_SYSTEM,
-        BLACKBOX_USER.format(
-            structured_requirements_json=json.dumps(structured, ensure_ascii=False, indent=2),
-            risk_analysis_json=json.dumps(risk_analysis, ensure_ascii=False, indent=2),
-        ),
+        user_prompt,
     )
 
     if isinstance(result, dict):
@@ -74,10 +96,6 @@ def blackbox_tester_node(state: AutoTestState) -> Dict[str, Any]:
     risk_analysis = state.get("risk_analysis", [])
     config = state.get("config", {})
 
-    enable_ep = config.get("enable_ep", True)
-    enable_bva = config.get("enable_bva", True)
-    enable_dt = config.get("enable_decision_table", True)
-
     progress = ["[BlackBox] 开始生成黑盒测试用例..."]
     errors = []
 
@@ -89,14 +107,22 @@ def blackbox_tester_node(state: AutoTestState) -> Dict[str, Any]:
             "errors": ["[BlackBox] 无可用需求"],
         }
 
+    enabled_techniques = []
+    if config.get("enable_ep", True):
+        enabled_techniques.append("Equivalence_Partitioning")
+    if config.get("enable_bva", True):
+        enabled_techniques.append("Boundary_Value_Analysis")
+    if config.get("enable_decision_table", True):
+        enabled_techniques.append("Decision_Table")
+
     llm = get_shared_llm()
     all_tests = []
+    technique_counts: Dict[str, int] = {}
 
     try:
-        raw_tests = generate_blackbox_tests(llm, structured, risk_analysis)
+        raw_tests = generate_blackbox_tests(llm, structured, risk_analysis, enabled_techniques)
         all_tests = [normalize_test_case(tc, tc.get("req_id", "UNKNOWN")) for tc in raw_tests]
 
-        technique_counts: Dict[str, int] = {}
         req_counts: Dict[str, int] = {}
         for test_case in all_tests:
             req_id = test_case.get("req_id", "UNKNOWN")
@@ -115,13 +141,16 @@ def blackbox_tester_node(state: AutoTestState) -> Dict[str, Any]:
     except Exception as e:
         errors.append(f"[BlackBox] 单次黑盒生成失败: {str(e)}")
 
-        # 失败时保留一个极简本地回退，避免整个工作流中断
+        fallback_technique = "Equivalence_Partitioning"
+        if fallback_technique not in enabled_techniques:
+            fallback_technique = enabled_techniques[0] if enabled_techniques else "Equivalence_Partitioning"
+
         for req in structured:
             req_id = req.get("req_id", "UNKNOWN")
             all_tests.append({
                 "tc_id": f"TC-{req_id}-FB-001",
                 "req_id": req_id,
-                "technique": "Equivalence_Partitioning",
+                "technique": fallback_technique,
                 "title": f"{req.get('title', '')}-回退用例",
                 "description": "LLM 黑盒生成失败时的本地回退用例",
                 "preconditions": [],
