@@ -150,7 +150,7 @@ class BranchAnalyzer:
         Each `MissingBranch` includes source context ready for an LLM prompt.
         """
         self._ensure_loaded()
-        source_lines = self.source_file.read_text().splitlines()
+        source_lines = self.source_file.read_text(encoding="utf-8").splitlines()
         missing: list[MissingBranch] = []
 
         for from_line, to_line in self._missing_arcs():

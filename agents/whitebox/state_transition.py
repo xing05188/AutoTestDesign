@@ -171,68 +171,7 @@ class StateTransitionDiagram:
 
         return "\n".join(lines)
 
-    # ── graphviz rendering ─────────────────────────────────────────────────
-
-    def to_graphviz(self) -> "Digraph":
-        """
-        Return a graphviz ``Digraph`` for this state-transition diagram.
-
-        Requires ``pip install graphviz`` plus the system Graphviz binaries.
-        The returned object can be further customised or rendered directly
-        via ``.render()``.
-        """
-        try:
-            from graphviz import Digraph
-        except ImportError as exc:
-            raise ImportError(
-                "graphviz is required for image rendering. "
-                "Install with: pip install graphviz"
-            ) from exc
-
-        dot = Digraph(
-            name=_safe_id(self.title),
-            comment=self.title,
-            format="png",
-            engine="dot",
-        )
-        dot.attr(
-            rankdir="LR",
-            fontname="SimHei",
-            fontsize="12",
-            label=f"<<b>{self.title}</b>>" if self.title else "",
-            labelloc="t",
-        )
-        dot.attr("node", fontname="SimHei", fontsize="10", shape="ellipse")
-        dot.attr("edge", fontname="SimHei", fontsize="9")
-
-        # Virtual start node for initial transitions
-        dot.node("__start__", "", shape="point", width="0")
-
-        for s in self.states:
-            shape = "doublecircle" if s.is_final else "ellipse"
-            label = f"{s.name}\\n{s.description}" if s.description else s.name
-            dot.node(_safe_id(s.name), label, shape=shape)
-
-        for t in self.transitions:
-            label_parts = []
-            if t.trigger:
-                label_parts.append(t.trigger)
-            if t.guard:
-                label_parts.append(t.guard)
-            if t.action:
-                label_parts.append(f"/ {t.action}")
-            label = "\\n".join(label_parts) if label_parts else ""
-            dot.edge(
-                _safe_id(t.from_state),
-                _safe_id(t.to_state),
-                label=label,
-            )
-
-        for s in self.states:
-            if s.is_initial:
-                dot.edge("__start__", _safe_id(s.name))
-
-        return dot
+    # ── Image rendering (via Mermaid.ink, no system dependencies) ──────────
 
     def render(
         self,
@@ -240,7 +179,8 @@ class StateTransitionDiagram:
         format: str = "png",
     ) -> str:
         """
-        Render the state-transition diagram to an image file.
+        Render the state-transition diagram to an image file using the
+        public Mermaid.ink API.  No system dependencies required.
 
         Parameters
         ----------
@@ -248,23 +188,33 @@ class StateTransitionDiagram:
             Path for the output image (e.g. ``"diagrams/login.png"``).
             Parent directories are created if they do not exist.
         format : str
-            Output format: ``"png"``, ``"svg"``, ``"pdf"``, etc.
+            Output format: ``"png"`` or ``"svg"``.
 
         Returns
         -------
         str
             Absolute path to the generated image.
         """
-        dot = self.to_graphviz()
-        dot.format = format
+        import base64
+        import urllib.parse
+
+        mermaid_code = self.to_mermaid()
+        encoded = base64.urlsafe_b64encode(
+            mermaid_code.encode("utf-8")
+        ).decode("ascii")
+
+        ext = "svg" if format == "svg" else "png"
+        url = f"https://mermaid.ink/img/{encoded}?type={ext}"
+
+        resp = requests.get(url, timeout=60)
+        resp.raise_for_status()
 
         path = Path(output_path).resolve()
         path.parent.mkdir(parents=True, exist_ok=True)
+        out_path = path.with_suffix(f".{ext}")
+        out_path.write_bytes(resp.content)
 
-        out_stem = str(path.with_suffix(""))
-        dot.render(filename=out_stem, cleanup=True)
-
-        return str(path.with_suffix(f".{format}"))
+        return str(out_path)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -426,8 +376,13 @@ class StateTransitionAnalyzer:
             json=payload,
             timeout=120,
         )
-        response.raise_for_status()
         data = response.json()
+
+        if response.status_code >= 400:
+            error_msg = data.get("error", {}).get("message", str(data))
+            raise RuntimeError(
+                f"LLM API error ({response.status_code}): {error_msg}"
+            )
 
         try:
             return data["choices"][0]["message"]["content"]
@@ -505,13 +460,6 @@ def _mermaid_id(name: str) -> str:
     """Convert a state name to a safe Mermaid identifier."""
     return re.sub(r"[^a-zA-Z0-9_一-鿿]", "_", name)
 
-
-def _safe_id(name: str) -> str:
-    """Convert a state name to a safe Graphviz node identifier."""
-    safe = re.sub(r"[^a-zA-Z0-9_一-鿿]", "_", name)
-    if not safe or safe[0].isdigit():
-        safe = "_" + safe
-    return safe
 
 
 # ─────────────────────────────────────────────────────────────────────────────

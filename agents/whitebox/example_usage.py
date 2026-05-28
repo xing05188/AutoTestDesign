@@ -163,8 +163,8 @@ def demo_branch_generation(
 
     gen = TestGenerator(api_key=api_key)
     result = gen.generate_for_branches(
-        source_code=source.read_text(),
-        existing_tests=test_file.read_text(),
+        source_code=source.read_text(encoding="utf-8"),
+        existing_tests=test_file.read_text(encoding="utf-8"),
         missing_branches=missing,
         module_name="sample",
     )
@@ -202,7 +202,7 @@ def demo_full_pipeline(
 
     print("\nFinal test file contents:")
     print("─" * 40)
-    print(test_file.read_text())
+    print(test_file.read_text(encoding="utf-8"))
 
 
 # ─────────────────────────────────────────────────────────────────────────────

@@ -182,7 +182,7 @@ class CoverageImprovementPipeline:
             target_coverage=target_branch_coverage,
         )
 
-        source_code = self.source_file.read_text()
+        source_code = self.source_file.read_text(encoding="utf-8")
 
         # ── Static analysis: compound conditions (done once) ───────────────
         all_conditions: list[CompoundCondition] = []
@@ -227,7 +227,7 @@ class CoverageImprovementPipeline:
             _print_gaps(missing_branches, conditions_this_iter)
 
             # Step 3 – generate new tests via LLM
-            existing_tests = self.test_file.read_text()
+            existing_tests = self.test_file.read_text(encoding="utf-8")
             generated: GeneratedTests = self._generator.generate_combined(
                 source_code=source_code,
                 existing_tests=existing_tests,

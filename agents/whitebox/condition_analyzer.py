@@ -110,7 +110,7 @@ class ConditionAnalyzer:
 
     def __init__(self, source_file: str) -> None:
         self.source_file = Path(source_file).resolve()
-        self._source = self.source_file.read_text()
+        self._source = self.source_file.read_text(encoding="utf-8")
         self._lines = self._source.splitlines()
         self._tree = ast.parse(self._source, filename=str(self.source_file))
 

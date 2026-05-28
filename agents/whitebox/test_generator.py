@@ -14,8 +14,8 @@ Typical usage
         model=os.environ["OPENAI_MODEL"],
     )
     result = gen.generate_combined(
-        source_code=Path("mymodule.py").read_text(),
-        existing_tests=Path("tests/test_mymodule.py").read_text(),
+        source_code=Path("mymodule.py").read_text(encoding="utf-8"),
+        existing_tests=Path("tests/test_mymodule.py").read_text(encoding="utf-8"),
         missing_branches=branch_analyzer.get_missing_branches(),
         conditions=condition_analyzer.get_compound_conditions(),
         module_name="mymodule",

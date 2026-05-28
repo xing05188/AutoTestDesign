@@ -384,6 +384,8 @@ if "payload" not in st.session_state:
 # Whitebox state
 if "wb_gen_result" not in st.session_state:
     st.session_state.wb_gen_result = None
+if "bb_seq_result" not in st.session_state:
+    st.session_state.bb_seq_result = None
 if "wb_seq_result" not in st.session_state:
     st.session_state.wb_seq_result = None
 
@@ -409,8 +411,9 @@ with st.sidebar:
 # Tabs
 # ──────────────────────────────────────────────────────────────────
 
-tab_blackbox, tab_wb_codegen, tab_wb_sequence = st.tabs([
-    "黑盒测试 (Black-Box)",
+tab_blackbox, tab_bb_sequence, tab_wb_codegen, tab_wb_sequence = st.tabs([
+    "黑盒测试",
+    "黑盒测试 - 最优测试序列",
     "白盒测试 - 测试代码生成",
     "白盒测试 - 最优测试序列",
 ])
@@ -621,7 +624,7 @@ with tab_blackbox:
 
 
 # ══════════════════════════════════════════════════════════════════
-# Tab 2: Whitebox - Test Code Generation
+# Tab 3: Whitebox - Test Code Generation
 # ══════════════════════════════════════════════════════════════════
 
 with tab_wb_codegen:
@@ -648,7 +651,7 @@ with tab_wb_codegen:
             help="statement: 仅语句覆盖; full: 语句+分支+条件(MC/DC)全覆盖",
         )
 
-        default_out = str(PROJECT_ROOT / "whitebox_outputs")
+        default_out = "outputs"
         output_dir = st.text_input(
             "输出目录",
             value=default_out,
@@ -755,11 +758,11 @@ with tab_wb_codegen:
 
 
 # ══════════════════════════════════════════════════════════════════
-# Tab 3: Whitebox - Optimal Test Sequence
+# Tab 2: Black-Box - Optimal Test Sequence
 # ══════════════════════════════════════════════════════════════════
 
-with tab_wb_sequence:
-    st.header("白盒测试 - 最优测试序列生成")
+with tab_bb_sequence:
+    st.header("黑盒测试 - 最优测试序列生成")
     st.markdown("基于**需求文档**通过 LLM 自动提取状态转换图，并使用图算法生成最优测试序列。")
 
     col_cfg, col_result = st.columns([1, 1], gap="large")
@@ -771,12 +774,126 @@ with tab_wb_sequence:
             "需求文档",
             value="",
             height=220,
-            key="wb_seq_req",
+            key="bb_seq_req",
             help="输入描述状态转换的需求文档（中文/英文均可）",
             placeholder="例如：用户登录系统需求：\n1. 系统初始处于「未登录」状态。\n2. 用户点击登录后进入「验证中」状态。\n3. 验证成功进入「已登录」，失败回到「未登录」...",
         )
 
-        default_diagram_dir = str(PROJECT_ROOT / "whitebox_outputs" / "diagrams")
+        default_diagram_dir = "outputs/diagrams"
+        diagram_dir = st.text_input(
+            "状态转换图输出目录",
+            value=default_diagram_dir,
+            key="bb_seq_diagram_dir",
+            help="状态转换图 PNG 图片将保存到此目录",
+        )
+
+        criterion = st.selectbox(
+            "覆盖准则",
+            options=["全状态覆盖", "全转换覆盖", "转换对覆盖", "全路径覆盖"],
+            index=1,
+            key="bb_seq_criterion",
+            help="全状态覆盖=访问所有状态; 全转换覆盖=遍历所有转换(推荐); 转换对覆盖=覆盖相邻转换对; 全路径覆盖=所有无环路径",
+        )
+
+        run_disabled = not req_text.strip()
+        if st.button("生成状态图与最优序列", type="primary", disabled=run_disabled, key="bb_seq_run"):
+            status = st.status("运行中...", expanded=True)
+            try:
+                st.session_state.bb_seq_result = _run_optimal_sequence(
+                    requirements=req_text,
+                    diagram_output_dir=diagram_dir,
+                    criterion_name=criterion,
+                    status_slot=status,
+                )
+                status.update(label="生成完成", state="complete")
+            except Exception as exc:
+                status.update(label="生成失败", state="error")
+                st.error(f"运行失败: {exc}")
+
+    with col_result:
+        st.subheader("生成结果")
+        result = st.session_state.bb_seq_result
+
+        if result:
+            diagram = result["diagram"]
+            sequence = result["sequence"]
+
+            # --- State transition diagram ---
+            st.markdown("#### 状态转换图")
+
+            tab_diagram_img, tab_diagram_mermaid, tab_diagram_json = st.tabs([
+                "状态图", "Mermaid 代码", "JSON",
+            ])
+
+            with tab_diagram_img:
+                if result["image_path"] and Path(result["image_path"]).exists():
+                    st.image(result["image_path"], caption=diagram.title, use_container_width=True)
+                else:
+                    st.info("未能渲染状态图图片（可能 Graphviz 未安装）。请查看下方 Mermaid 代码。")
+                    st.code(result["mermaid_code"], language="mermaid")
+
+            with tab_diagram_mermaid:
+                st.code(result["mermaid_code"], language="mermaid")
+
+            with tab_diagram_json:
+                st.json(result["diagram_dict"])
+
+            # --- State & transition summary ---
+            st.markdown("#### 状态与转换摘要")
+            sm1, sm2, sm3 = st.columns(3)
+            sm1.metric("状态数", len(diagram.states))
+            sm2.metric("转换数", len(diagram.transitions))
+            sm3.metric("覆盖准则", result["criterion"])
+
+            # --- Optimal test sequence ---
+            st.markdown("#### 最优测试序列")
+            st.markdown(f"**序列长度**: {len(sequence.steps)} 步 | **状态路径**: {' → '.join(result['state_sequence'])}")
+
+            # Build table rows
+            seq_rows = []
+            for step in sequence.steps:
+                seq_rows.append({
+                    "步骤": step.step,
+                    "动作/触发器": step.action,
+                    "起始状态": step.from_state,
+                    "目标状态": step.to_state,
+                    "守卫条件": step.guard if step.guard else "-",
+                    "预期结果": step.expected if step.expected else f"进入'{step.to_state}'状态",
+                })
+            st.dataframe(seq_rows, use_container_width=True, height=360)
+
+            # --- Detailed table ---
+            with st.expander("查看详细测试序列表 (Markdown 表格)", expanded=False):
+                st.markdown(sequence.to_table())
+
+            # --- JSON export ---
+            with st.expander("查看 JSON 导出", expanded=False):
+                st.json(json.loads(sequence.to_json()))
+        else:
+            st.info('输入需求文档并点击「生成状态图与最优序列」后，结果将显示在这里。')
+
+
+# ══════════════════════════════════════════════════════════════════
+# Tab 4: Whitebox - Optimal Test Sequence
+# ══════════════════════════════════════════════════════════════════
+
+with tab_wb_sequence:
+    st.header("白盒测试 - 最优测试序列生成")
+    st.markdown("基于**源代码**通过 LLM 自动提取状态转换图，并使用图算法生成最优测试序列。")
+
+    col_cfg, col_result = st.columns([1, 1], gap="large")
+
+    with col_cfg:
+        st.subheader("配置参数")
+
+        uploaded_file = st.file_uploader(
+            "上传源代码文件 (.py)",
+            type=["py"],
+            key="wb_seq_upload",
+            help="选择要分析状态转换的 Python 源代码文件",
+        )
+
+        default_diagram_dir = "outputs/diagrams"
         diagram_dir = st.text_input(
             "状态转换图输出目录",
             value=default_diagram_dir,
@@ -792,12 +909,13 @@ with tab_wb_sequence:
             help="全状态覆盖=访问所有状态; 全转换覆盖=遍历所有转换(推荐); 转换对覆盖=覆盖相邻转换对; 全路径覆盖=所有无环路径",
         )
 
-        run_disabled = not req_text.strip()
+        run_disabled = uploaded_file is None
         if st.button("生成状态图与最优序列", type="primary", disabled=run_disabled, key="wb_seq_run"):
             status = st.status("运行中...", expanded=True)
             try:
+                source_code = uploaded_file.getvalue().decode("utf-8")
                 st.session_state.wb_seq_result = _run_optimal_sequence(
-                    requirements=req_text,
+                    requirements=source_code,
                     diagram_output_dir=diagram_dir,
                     criterion_name=criterion,
                     status_slot=status,
@@ -867,4 +985,4 @@ with tab_wb_sequence:
             with st.expander("查看 JSON 导出", expanded=False):
                 st.json(json.loads(sequence.to_json()))
         else:
-            st.info('输入需求文档并点击「生成状态图与最优序列」后，结果将显示在这里。')
+            st.info('上传源代码文件并点击「生成状态图与最优序列」后，结果将显示在这里。')
